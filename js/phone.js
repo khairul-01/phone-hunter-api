@@ -1,22 +1,25 @@
-const phoneLoad = async (searchText) => {
+const phoneLoad = async (searchText, isShowAll) => {
    const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
    const data = await res.json();
    const phones = data.data;
-   phoneDisplay(phones);
+   phoneDisplay(phones, isShowAll);
 }
-const phoneDisplay = phones => {
+const phoneDisplay = (phones, isShowAll) => {
    console.log(phones);
-   console.log(phones.length)
+   console.log(phones.length);
    // displaying show all button based on condition
    const showAllBtn = document.getElementById('show-all-btn');
-   if(phones.length>12){
+   if(phones.length>12 && !isShowAll){
       showAllBtn.classList.remove('hidden');
    }
    else{
       showAllBtn.classList.add('hidden');
    }
    // displaying only first 10 phones
-   phones = phones.slice(0,12);
+   if(!isShowAll){
+      phones = phones.slice(0,12);
+   }
+   
    // find place where to add
    const phoneContainer = document.getElementById('phone-container');
    phoneContainer.innerText = '';
@@ -44,12 +47,12 @@ const phoneDisplay = phones => {
 // phoneLoad();
 
 // handle search button
-const handleSearch = () => {
+const handleSearch = (isShowAll) => {
    toggleHandler(true);
    const searchField = document.getElementById('search-field');
    const searchText = searchField.value;
    console.log(searchText);
-   phoneLoad(searchText);
+   phoneLoad(searchText, isShowAll);
 }
 
 // handle toggle spinner
@@ -61,4 +64,10 @@ const toggleHandler = (isSpnner) => {
    else{
       toggleHandle.classList.add('hidden');
    }
+}
+
+// Show all button
+const showAllButton = () => {
+   handleSearch(true);
+   console.log('show all button clicked');
 }
