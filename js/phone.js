@@ -5,11 +5,23 @@ const phoneLoad = async (searchText) => {
    phoneDisplay(phones);
 }
 const phoneDisplay = phones => {
+   console.log(phones);
+   console.log(phones.length)
+   // displaying show all button based on condition
+   const showAllBtn = document.getElementById('show-all-btn');
+   if(phones.length>12){
+      showAllBtn.classList.remove('hidden');
+   }
+   else{
+      showAllBtn.classList.add('hidden');
+   }
+   // displaying only first 10 phones
+   phones = phones.slice(0,12);
    // find place where to add
    const phoneContainer = document.getElementById('phone-container');
    phoneContainer.innerText = '';
    phones.forEach(phone => {
-      console.log(phone);
+      // console.log(phone);
       // create a div
       const phoneCard = document.createElement('div');
       phoneCard.classList = `card w-96 bg-base-100 shadow-xl p-4`;
@@ -26,14 +38,27 @@ const phoneDisplay = phones => {
       `;
       // append child
       phoneContainer.appendChild(phoneCard);
-   })
+   });
+   toggleHandler(false);
 }
 // phoneLoad();
 
 // handle search button
 const handleSearch = () => {
+   toggleHandler(true);
    const searchField = document.getElementById('search-field');
    const searchText = searchField.value;
    console.log(searchText);
    phoneLoad(searchText);
+}
+
+// handle toggle spinner
+const toggleHandler = (isSpnner) => {
+   const toggleHandle = document.getElementById('toggle-spinner');
+   if(isSpnner){
+      toggleHandle.classList.remove('hidden');
+   }
+   else{
+      toggleHandle.classList.add('hidden');
+   }
 }
