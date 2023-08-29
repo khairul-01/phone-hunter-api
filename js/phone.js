@@ -24,7 +24,7 @@ const phoneDisplay = (phones, isShowAll) => {
    const phoneContainer = document.getElementById('phone-container');
    phoneContainer.innerText = '';
    phones.forEach(phone => {
-      // console.log(phone);
+      console.log(phone);
       // create a div
       const phoneCard = document.createElement('div');
       phoneCard.classList = `card w-96 bg-base-100 shadow-xl p-4`;
@@ -34,8 +34,8 @@ const phoneDisplay = (phones, isShowAll) => {
       <div class="card-body">
          <h2 class="card-title">${phone.phone_name}</h2>
          <p>If a dog chews shoes whose shoes does he choose?</p>
-         <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+         <div class="card-actions justify-center">
+            <button onclick="showDetail('${phone.slug}')" class="btn btn-primary">Show Details</button>
          </div>
       </div>
       `;
@@ -45,7 +45,13 @@ const phoneDisplay = (phones, isShowAll) => {
    toggleHandler(false);
 }
 // phoneLoad();
-
+const showDetail = async (id) => {
+   console.log('show deatails button is clicked', id);
+   // loading single phone data
+   const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+   const data = await res.json();
+   console.log(data);
+}
 // handle search button
 const handleSearch = (isShowAll) => {
    toggleHandler(true);
