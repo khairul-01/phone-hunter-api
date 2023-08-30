@@ -5,8 +5,8 @@ const phoneLoad = async (searchText, isShowAll) => {
    phoneDisplay(phones, isShowAll);
 }
 const phoneDisplay = (phones, isShowAll) => {
-   console.log(phones);
-   console.log(phones.length);
+   // console.log(phones);
+   // console.log(phones.length);
    // displaying show all button based on condition
    const showAllBtn = document.getElementById('show-all-btn');
    if(phones.length>12 && !isShowAll){
@@ -24,7 +24,7 @@ const phoneDisplay = (phones, isShowAll) => {
    const phoneContainer = document.getElementById('phone-container');
    phoneContainer.innerText = '';
    phones.forEach(phone => {
-      console.log(phone);
+      // console.log(phone);
       // create a div
       const phoneCard = document.createElement('div');
       phoneCard.classList = `card w-96 bg-base-100 shadow-xl p-4`;
@@ -43,21 +43,56 @@ const phoneDisplay = (phones, isShowAll) => {
       phoneContainer.appendChild(phoneCard);
    });
    toggleHandler(false);
+   if(phoneContainer.innerText === ''){
+      const noAvailable = document.getElementById('no-available');
+      noAvailable.classList.remove('hidden');
+   }
+   else{
+      const noAvailable = document.getElementById('no-available');
+      noAvailable.classList.add('hidden');
+   }
 }
 // phoneLoad();
+// each phone details
 const showDetail = async (id) => {
-   console.log('show deatails button is clicked', id);
+   console.log('show details button is clicked', id);
    // loading single phone data
    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
    const data = await res.json();
-   console.log(data);
+   const phone = data.data;
+   eachPhoneDetails(phone);
+}
+// each phone details
+const eachPhoneDetails = (phone) => {
+   console.log(phone);
+   const phoneName = document.getElementById('d-phone-name');
+   phoneName.innerText = phone?.name;
+
+   const phoneDContainer = document.getElementById('phone-detail-container');
+   phoneDContainer.innerHTML =  
+   `<img src="${phone?.image}">
+   
+   <p><span>Storage:  </span>${phone?.mainFeatures?.storage}</p>
+   <p><span>Display Size:  </span>${phone?.mainFeatures?.displaySize
+   }</p>
+   <p><span>Chipset:  </span>${phone?.mainFeatures?.chipSet}</p>
+   <p><span>Memory:  </span>${phone?.mainFeatures?.memory}</p>
+   <p><span>Slug:  </span>${phone?.slug}</p>
+   <p><span>Release Date:  </span>${phone?.releaseDate}</p>
+   <p><span>Brand:  </span>${phone?.brand}</p>
+   <p><span>GPS:  </span>${phone?.others?.GPS}</p>
+   `
+   // <p><span>GPS:  </span>${phone?.others?.GPS || 'No GPS available'}</p> (using or method)
+   // <p><span>GPS:  </span>${phone?.others?.GPS ? phone.others.GPS : No GPS available}</p> (using ternary operator)
+   // show the modal
+   phoneDetails.showModal();
 }
 // handle search button
 const handleSearch = (isShowAll) => {
    toggleHandler(true);
    const searchField = document.getElementById('search-field');
    const searchText = searchField.value;
-   console.log(searchText);
+   // console.log(searchText);
    phoneLoad(searchText, isShowAll);
 }
 
