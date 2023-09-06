@@ -4,6 +4,8 @@ const phoneLoad = async (searchText, isShowAll) => {
    const phones = data.data;
    phoneDisplay(phones, isShowAll);
 }
+phoneLoad('apple', true);
+
 const phoneDisplay = (phones, isShowAll) => {
    // console.log(phones);
    // console.log(phones.length);
@@ -17,7 +19,7 @@ const phoneDisplay = (phones, isShowAll) => {
    }
    // displaying only first 10 phones
    if(!isShowAll){
-      phones = phones.slice(0,12);
+      phones = phones.slice(0,9);
    }
    
    // find place where to add
